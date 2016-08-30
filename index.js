@@ -1,0 +1,74 @@
+require('colors');
+
+const psi = require('psi');
+const checkPages = require('./pages');
+const psiNames = require('./psiNameMap');
+
+function removeCurlyBrace(string) {
+  return string.replace(/\{\{\w+\}\}/g, '');
+}
+
+function printUrlBlocks(urlBlocks) {
+  const advice = urlBlocks.shift();
+  console.log(removeCurlyBrace(advice.header.format));
+
+  urlBlocks.forEach((resultUrlBlock) => {
+    console.log(removeCurlyBrace(resultUrlBlock.header.format).cyan);
+    if (resultUrlBlock.urls && Array.isArray(resultUrlBlock.urls)) {
+      resultUrlBlock.urls.forEach((url) => {
+        console.log(url.result.args[0].value.underline.blue);
+      });
+    }
+  });
+}
+
+checkPages.forEach((checkPage) => {
+  const {
+    rules,
+    domain,
+  } = checkPage;
+
+  const addresses = checkPage.addresses || [''];
+
+  addresses.forEach((address) => {
+    psi(domain + address).then((result) => {
+      console.log('\n***************************'.white);
+      console.log('Result of '.bgWhite.black + `${domain + address}`.bgWhite.underline.blue);
+      console.log(''); // Log a new line in console
+
+      for (let i = 0, ruleLen = rules.length; i < ruleLen; i++) {
+        const ruleMsg = rules[i];
+        const ruleName = psiNames[ruleMsg];
+
+        if (!ruleName) {
+          console.log(
+            `Didn't find rule of ${ruleMsg}, please add it to name mapping.`.red
+          );
+          return;
+        }
+
+        const ruleResult = result.formattedResults.ruleResults[ruleName];
+
+        const {
+          summary,
+          urlBlocks
+        } = ruleResult;
+
+        console.log(ruleMsg.yellow);
+        if (summary) {
+          console.log(removeCurlyBrace(summary.format).green);
+        }
+
+        if (Array.isArray(urlBlocks)) {
+          printUrlBlocks(urlBlocks);
+        }
+
+        if (i !== ruleLen - 1) {
+          console.log(''); // Log a new line in console
+        }
+      }
+
+      console.log('***************************\n'.white);
+    });
+  });
+});

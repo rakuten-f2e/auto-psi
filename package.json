@@ -1,0 +1,20 @@
+{
+  "name": "auto-psi",
+  "version": "0.1.0",
+  "description": "Autorun PageSpeed Insight",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "cybai",
+  "license": "MIT",
+  "dependencies": {
+    "colors": "^1.1.2",
+    "psi": "^2.0.4"
+  },
+  "devDependencies": {
+    "eslint": "^3.3.1",
+    "eslint-config-airbnb-base": "^5.0.3",
+    "eslint-plugin-import": "^1.14.0"
+  }
+}
