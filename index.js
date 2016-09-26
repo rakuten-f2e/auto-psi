@@ -9,8 +9,12 @@ function removeCurlyBrace(string) {
 }
 
 function printUrlBlocks(urlBlocks) {
-  const advice = urlBlocks.shift();
-  console.log(removeCurlyBrace(advice.header.format));
+  // If the first element is only header message, it won't have `urls`
+  const { urls } = urlBlocks[0];
+  if (!urls) {
+    const advice = urlBlocks.shift();
+    console.log(removeCurlyBrace(advice.header.format));
+  }
 
   urlBlocks.forEach((resultUrlBlock) => {
     console.log(removeCurlyBrace(resultUrlBlock.header.format).cyan);
