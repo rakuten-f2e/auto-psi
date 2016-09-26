@@ -14,6 +14,7 @@
   module.exports = [{
     domain: 'http://www.html5rocks.com/',
     addresses: ['en', 'ja', 'ko'],
+    strategy: 'desktop',
     rules: [
       'Optimize images',
       'Leverage browser caching',
@@ -65,6 +66,14 @@ rules: [
   'Eliminate render-blocking JavaScript and CSS in above-the-fold content'
 ]
 ```
+
+### strategy (Same as `psi` API)
+
+Type: `string`<br/>
+Default: `mobile`<br/>
+Values: `mobile`, `desktop`<br/>
+
+Strategy to use when analyzing the page.
 
 ## Dependencies
 
