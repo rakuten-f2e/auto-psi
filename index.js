@@ -33,9 +33,10 @@ checkPages.forEach((checkPage) => {
   } = checkPage;
 
   const addresses = checkPage.addresses || [''];
+  const strategy = checkPage.strategy || 'mobile';
 
   addresses.forEach((address) => {
-    psi(domain + address).then((result) => {
+    psi(domain + address, { strategy }).then((result) => {
       console.log('\n***************************'.white);
       console.log('Result of '.bgWhite.black + `${domain + address}`.bgWhite.underline.blue);
       console.log(''); // Log a new line in console
