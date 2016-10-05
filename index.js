@@ -41,6 +41,19 @@ checkPages.forEach((checkPage) => {
       console.log('Result of '.bgWhite.black + `${domain + address}`.bgWhite.underline.blue);
       console.log(''); // Log a new line in console
 
+      const { SPEED, USABILITY } = result.ruleGroups;
+
+      if (SPEED) {
+        const score = (SPEED.score > 80) ? `${SPEED.score}`.green : `${SPEED.score}`.red;
+        console.log('SPEED: '.white + score);
+      }
+
+      if (USABILITY) {
+        console.log(`USABILITY: ${USABILITY.score}`.white);
+      }
+
+      console.log(''); // Log a new line in console
+
       for (let i = 0, ruleLen = rules.length; i < ruleLen; i++) {
         const ruleMsg = rules[i];
         const ruleName = psiNames[ruleMsg];
